@@ -1,2 +1,2 @@
 # my_pro
-my job project
+my daily code
