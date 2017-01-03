@@ -66,6 +66,22 @@
         <td align="center">mia_today_rate_total</td>
         <td align="center">无</td>
     </tr>
+    <tr>
+        <td align="center">mogujie_index</td>
+        <td align="center">mogujie_total</td>
+        <td align="center">mogujie_today_total</td>
+        <td align="center">mogujie_today_goods_total</td>
+        <td align="center">mogujie_today_rate_total</td>
+        <td align="center">mogujie_today_shops_total</td>
+    </tr>
+    <tr>
+        <td align="center">meilishuo_index</td>
+        <td align="center">meilishuo_total</td>
+        <td align="center">meilishuo_today_total</td>
+        <td align="center">meilishuo_today_goods_total</td>
+        <td align="center">meilishuo_today_rate_total</td>
+        <td align="center">meilishuo_today_shops_total</td>
+    </tr>
     </br>
     </br>
 </table>

@@ -33,7 +33,7 @@ public class MonitorEcCount {
                 MonthIndex.main(new String[1]);
             }
         }, 0, 1000 * 60 * 60 * 24 * 7);*/
-        List<Date> specialList = getSpecialTime(new Integer[]{0,9,12,15,18,21});
+        List<Date> specialList = getSpecialTime(new Integer[]{0, 9, 12, 15, 18, 21});
         specialList.stream().forEach(date -> new Timer().schedule(new MyCountTimeTask(), date, 1000 * 60 * 60 * 24));
     }
 
@@ -70,8 +70,9 @@ public class MonitorEcCount {
         return specialList;
     }
 
-    static class MyCountTimeTask extends TimerTask{
+    static class MyCountTimeTask extends TimerTask {
         private static String sendTo;
+
         static {
             try {
                 sendTo = FileUtils.readFileToString(new File(MonthIndex.class.getResource("/").getFile() + "sendTo.txt")).trim();
@@ -79,6 +80,7 @@ public class MonitorEcCount {
                 e.printStackTrace();
             }
         }
+
         @Override
         public void run() {
             List<Map<String, String>> list = new ArrayList<>();
@@ -89,6 +91,8 @@ public class MonitorEcCount {
             list.add(queryCountByType(WeekIndex.jd));
             list.add(queryCountByType(WeekIndex.tmall));
             list.add(queryCountByType(WeekIndex.taobao));
+            list.add(queryCountByType(MonthIndex.mogujie));
+            list.add(queryCountByType(MonthIndex.meilishuo));
             try {
                 String mailContent = FileUtils.readFileToString(new File(MonthIndex.class.getResource("/").getFile() + "mail.txt")).trim();
                 for (int i = 0; i < list.size(); i++) {
@@ -116,12 +120,17 @@ public class MonitorEcCount {
             try {
                 String index = getIndexName(type);
                 String url = Http.url + index + "/goods,rate,shop/_search?search_type=count";
+                if (MonthIndex.meilishuo.equals(type) || MonthIndex.mogujie.equals(type)) {
+                    url = url.replace("goods", "item");
+                }
                 String result = Http.doPost(url, "");
                 count.put(type + "_index", index);
                 if (StringUtils.isBlank(result)) {
                     count.put(type + "_total", "0");
                     count.put(type + "_today_total", "0");
                     count.put(type + "_today_goods_total", "0");
+                    count.put(type + "_today_rate_total", "0");
+                    count.put(type + "_today_shops_total", "0");
                 }
                 long total = JSONObject.parseObject(result).getJSONObject("hits").getLong("total");
                 count.put(type + "_total", String.valueOf(total));
@@ -143,6 +152,9 @@ public class MonitorEcCount {
                 count.put(type + "_today_total", String.valueOf(total));
 
                 url = Http.url + index + "/goods/_search?search_type=count";
+                if (MonthIndex.meilishuo.equals(type) || MonthIndex.mogujie.equals(type)) {
+                    url = url.replace("goods", "item");
+                }
                 result = Http.doPost2(url + q, "");
                 total = JSONObject.parseObject(result).getJSONObject("hits").getLong("total");
                 count.put(type + "_today_goods_total", String.valueOf(total));
@@ -157,6 +169,7 @@ public class MonitorEcCount {
                 total = JSONObject.parseObject(result).getJSONObject("hits").getLong("total");
                 count.put(type + "_today_shops_total", String.valueOf(total));
             } catch (Exception e) {
+                System.err.println(type + ":error");
                 e.printStackTrace();
             }
             return count;
@@ -177,10 +190,18 @@ public class MonitorEcCount {
             case "vip":
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(new Date());
-                calendar.add(Calendar.MONTH, 1);
                 int m = calendar.get(Calendar.MONTH);
+                m++;
                 int year = calendar.get(Calendar.YEAR);
                 return "ec_" + type + "_" + year + "_m" + m;
+            case "mogujie":
+            case "meilishuo":
+                Calendar calendar1 = Calendar.getInstance();
+                calendar1.setTime(new Date());
+                int m1 = calendar1.get(Calendar.MONTH);
+                m1++;
+                int year1 = calendar1.get(Calendar.YEAR);
+                return type + "_" + year1 + "_m" + m1;
             case "jd":
             case "taobao":
             case "tmall":

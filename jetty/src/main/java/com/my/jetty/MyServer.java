@@ -1,5 +1,6 @@
 package com.my.jetty;
 
+import com.my.jetty.examples.SimpleEchoSocket;
 import com.my.jetty.handler.HelloHandler;
 //import com.my.jetty.servlet.MyEchoServlet;
 import com.my.jetty.servlet.MyEchoServlet;
@@ -24,6 +25,7 @@ public class MyServer {
             context.setContextPath("/");
 //            context.addServlet(new ServletHolder(new DefaultServlet()), "/");
             context.addServlet(new ServletHolder(new MyEchoServlet()), "/echo");
+//            context.addServlet(new ServletHolder(new SimpleEchoSocket()), "/sock");
             handlerList.addHandler(context);
 //            handlerList.addHandler(new DefaultHandler());
             handlerList.addHandler(new HelloHandler());

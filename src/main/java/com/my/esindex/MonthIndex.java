@@ -20,6 +20,8 @@ public class MonthIndex {
     public static String mia = "mia";
     public static String vip = "vip";
     private static String settingVip = null;
+    public static String mogujie = "mogujie";
+    public static String meilishuo = "meilishuo";
 
 
     static {
