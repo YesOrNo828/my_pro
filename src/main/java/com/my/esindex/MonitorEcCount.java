@@ -23,11 +23,10 @@ import java.util.*;
 public class MonitorEcCount {
     private static final Logger logger = LoggerFactory.getLogger(MonitorEcCount.class);
     public static void main(String[] args) {
-        Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> logger.error("Thread:" + thread.getName(), throwable));
         try {
             List<Date> specialList = getSpecialTime(new Integer[]{0, 9, 12, 15, 18, 21});
             specialList.stream().forEach(date -> new Timer().schedule(new MyCountTimeTask(), date, 1000 * 60 * 60 * 24));
-            logger.info("监控启动...");
+            logger.info("监控启动完成...");
         } catch (Exception e) {
             logger.error("System start failed due to {}", e.toString());
             e.printStackTrace();
@@ -73,14 +72,24 @@ public class MonitorEcCount {
 
         static {
             try {
-                sendTo = FileUtils.readFileToString(new File(MonthIndex.class.getResource("/").getFile() + "sendTo.txt")).trim();
+                if (StringUtils.isBlank(sendTo)) {
+                    sendTo = FileUtils.readFileToString(new File(MonthIndex.class.getResource("/").getFile() + "sendTo.txt")).trim();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
+        public MyCountTimeTask() {
+        }
+
+        public MyCountTimeTask(String sendTo) {
+            this.sendTo = StringUtils.isNotBlank(sendTo) ? sendTo : this.sendTo;
+        }
+
         @Override
         public void run() {
+            logger.info("开始监控...");
             List<Map<String, String>> list = new ArrayList<>();
             list.add(queryCountByType(MonthIndex.gome));
             list.add(queryCountByType(MonthIndex.suning));
@@ -100,17 +109,12 @@ public class MonitorEcCount {
                 }
                 mailContent = mailContent.replace("nowTime", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
                 MailUtil.send(sendTo, "电商数据产出监控", mailContent);
-                System.out.println("send mail success");
+                logger.info("send mail success :{}", sendTo);
             } catch (MessagingException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-
-        public static void main(String[] args) {
-            MyCountTimeTask myCountTimeTask = new MyCountTimeTask();
-            myCountTimeTask.run();
         }
 
         private Map<String, String> queryCountByType(String type) {
