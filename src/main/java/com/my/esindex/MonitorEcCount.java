@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.my.mail.MailUtil;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.mail.MessagingException;
 import java.io.File;
@@ -19,22 +21,18 @@ import java.util.*;
  * Created by yexianxun on 2016/8/28.
  */
 public class MonitorEcCount {
-
+    private static final Logger logger = LoggerFactory.getLogger(MonitorEcCount.class);
     public static void main(String[] args) {
-        /*new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                WeekIndex.main(new String[1]);
-            }
-        }, 0, 1000 * 60 * 60 * 24 * 7);
-        new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                MonthIndex.main(new String[1]);
-            }
-        }, 0, 1000 * 60 * 60 * 24 * 7);*/
-        List<Date> specialList = getSpecialTime(new Integer[]{0, 9, 12, 15, 18, 21});
-        specialList.stream().forEach(date -> new Timer().schedule(new MyCountTimeTask(), date, 1000 * 60 * 60 * 24));
+        Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> logger.error("Thread:" + thread.getName(), throwable));
+        try {
+            List<Date> specialList = getSpecialTime(new Integer[]{0, 9, 12, 15, 18, 21});
+            specialList.stream().forEach(date -> new Timer().schedule(new MyCountTimeTask(), date, 1000 * 60 * 60 * 24));
+            logger.info("监控启动...");
+        } catch (Exception e) {
+            logger.error("System start failed due to {}", e.toString());
+            e.printStackTrace();
+        }
+
     }
 
     public static List<Date> getSpecialTime(Integer[] hours) {
@@ -188,12 +186,6 @@ public class MonitorEcCount {
             case "suning":
             case "mia":
             case "vip":
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(new Date());
-                int m = calendar.get(Calendar.MONTH);
-                m++;
-                int year = calendar.get(Calendar.YEAR);
-                return "ec_" + type + "_" + year + "_m" + m;
             case "mogujie":
             case "meilishuo":
                 Calendar calendar1 = Calendar.getInstance();
@@ -201,8 +193,11 @@ public class MonitorEcCount {
                 int m1 = calendar1.get(Calendar.MONTH);
                 m1++;
                 int year1 = calendar1.get(Calendar.YEAR);
-                return type + "_" + year1 + "_m" + m1;
+                return "ec_" + type + "_" + year1 + "_m" + m1;
             case "jd":
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+                String date = sdf.format(new Date());
+                return "ec_" + type + "_" + date;
             case "taobao":
             case "tmall":
                 Calendar calendarw = Calendar.getInstance();
