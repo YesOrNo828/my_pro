@@ -80,6 +80,14 @@ public class MonitorEcCount {
             }
         }
 
+        public static void main(String[] args) {
+            MyCountTimeTask myCountTimeTask = new MyCountTimeTask();
+            myCountTimeTask.run();
+
+        }
+
+
+
         public MyCountTimeTask() {
         }
 
@@ -154,7 +162,8 @@ public class MonitorEcCount {
                 count.put(type + "_today_total", String.valueOf(total));
 
                 url = Http.url + index + "/goods/_search?search_type=count";
-                if (MonthIndex.meilishuo.equals(type) || MonthIndex.mogujie.equals(type)) {
+                if (MonthIndex.meilishuo.equals(type) || MonthIndex.mogujie.equals(type) || MonthIndex.gome.equals(type) ||
+                        MonthIndex.vip.equals(type) || MonthIndex.mia.equals(type)) {
                     url = url.replace("goods", "item");
                 }
                 result = Http.doPost2(url + q, "");

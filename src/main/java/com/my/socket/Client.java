@@ -10,8 +10,8 @@ import java.net.Socket;
  * Created by yexianxun on 2016/10/17.
  */
 public class Client {
-    private static final String ip = "127.0.0.1";
-    private static final int port = 4700;
+    private static final String ip = "101.201.41.31";
+    private static final int port = 81;
 
     public static void main(String[] args) throws IOException {
         Socket socket = new Socket(ip, port);

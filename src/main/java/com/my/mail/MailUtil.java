@@ -33,10 +33,12 @@ public class MailUtil {
 
     static {
         props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.host", "mail.adtime.com");
-        props.put("mail.user", "yq_service@adtime.com");
-        props.put("mail.password", "8R80znN5");
+        props.put("mail.smtp.host", "smtp.163.com");
+        props.put("mail.user", "yq_service@163.com");
+        props.put("mail.password", "8R80znN52017");
+        props.put("mail.smtp.localhost", "localhost");
         authenticator = new Authenticator() {
+
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
                 // 用户名、密码
