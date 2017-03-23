@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.adtime.http:resource:1.0.1.002-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/adtime/http/resource/1.0.1.002-SNAPSHOT/resource-1.0.1.002-20170322.031203-293.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/adtime/http/resource/1.0.1.002-SNAPSHOT/resource-1.0.1.002-20170322.031203-293-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/adtime/http/resource/1.0.1.002-SNAPSHOT/resource-1.0.1.002-20170322.031203-293-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

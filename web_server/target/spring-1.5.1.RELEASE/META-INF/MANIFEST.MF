@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Implementation-Version: 1.5.1.RELEASE
+Built-By: yexianxun
+Implementation-Vendor-Id: com.my.web
+Created-By: IntelliJ IDEA
+Build-Jdk: 1.8.0_05
+Main-Class: ${start-class}
+
