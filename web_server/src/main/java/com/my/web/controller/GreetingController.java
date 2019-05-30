@@ -1,5 +1,7 @@
 package com.my.web.controller;
 
+import com.my.web.MessagePrinter;
+import com.my.web.service.MessageService;
 import com.my.web.service.UserService;
 import com.my.web.vo.Greeting;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +23,25 @@ public class GreetingController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private MessagePrinter messagePrinter;
+    @Autowired
+    private MessageService messageService;
 
     @RequestMapping("/greeting")
     public Greeting hello(@RequestParam(name = "name", defaultValue = "world") String name) {
         userService.addUser();
         return new Greeting(id.incrementAndGet(), name);
+    }
+
+    @RequestMapping("/print")
+    public String print() {
+        return messagePrinter.getMessage();
+    }
+
+    @RequestMapping("/print1")
+    public String print1() {
+        return messageService.getMessage();
     }
 
     public static void main(String[] args) {

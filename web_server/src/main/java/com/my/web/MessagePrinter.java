@@ -23,4 +23,8 @@ public class MessagePrinter {
         System.out.println(messageService.getMessage());
         userService.addUser();
     }
+
+    public String getMessage() {
+        return messageService.getMessage();
+    }
 }
