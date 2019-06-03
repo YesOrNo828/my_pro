@@ -35,7 +35,7 @@ public class MailUtil {
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.host", "smtp.163.com");
         props.put("mail.user", "yq_service@163.com");
-        props.put("mail.password", "8R80znN52017");
+        props.put("mail.password", "***");
         props.put("mail.smtp.localhost", "localhost");
         authenticator = new Authenticator() {
 
