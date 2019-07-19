@@ -18,6 +18,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Created by yexianxun on 2017/2/22.
  */
 @RestController
+@RequestMapping(value = {"api", "otherApi"})
 public class GreetingController {
     private static final AtomicInteger id = new AtomicInteger();
 
@@ -28,7 +29,7 @@ public class GreetingController {
     @Autowired
     private MessageService messageService;
 
-    @RequestMapping("/greeting")
+    @RequestMapping(value = {"/greeting"})
     public Greeting hello(@RequestParam(name = "name", defaultValue = "world") String name) {
         userService.addUser();
         return new Greeting(id.incrementAndGet(), name);
