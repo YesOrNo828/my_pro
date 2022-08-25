@@ -18,7 +18,7 @@
         <java_target_version>1.8</java_target_version>
         <file_encoding>UTF-8</file_encoding>
         <maven_compiler_plugin_version>2.3.2</maven_compiler_plugin_version>
-        <logback.version>1.1.7</logback.version>
+        <logback.version>1.2.9</logback.version>
         <activeMq.version>5.11.0</activeMq.version>
     </properties>
 
